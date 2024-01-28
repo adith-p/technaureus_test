@@ -1,0 +1,118 @@
+{% extends 'library_app/base.html' %}
+
+{% block content %}
+<div class="comtainer my-5  mx-4">
+    <p>Authors Name: {{ author_info.author_name }}</p>
+    <p>User Name: {{ author_info.username }}</p>
+    <p>Email: {{author_info.email_id}}</p>
+</div>
+<div class="container">
+    <div class="d-flex justify-content-between ">
+        <form action="" method="get" class="d-flex">
+            <input type="text" name="b_id" value="" hidden>
+            <input type="text" class="form-control me-2" placeholder="Search" name="query">
+            <button class="btn" type="submit"><span><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg></span></button>
+        </form>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
+            Add Books
+        </button>
+
+    </div>
+    <table class="table table-bordered my-2">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>Book Name</th>
+                <th>Book ID</th>
+                <th>Created Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in book_info %}
+            <tr>
+                <th>{{ forloop.counter }}</th>
+                <th>{{ item.book_name }}</th>
+                <th>{{ item.pk }}</th>
+                <th>{{ item.published_date }}</th>
+                <th><a href="" class="btn" data-bs-toggle="modal" data-bs-target="#exampleModalCenter"
+                        data-instance-id="{{ item.pk }}" data-target-form="booksForm"><span><svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                <path
+                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                            </svg></span></a>
+                </th>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            {% if data.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{data.previous_page_number}}">Previous</a></li>
+
+            {% endif %}
+
+            <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+
+            {% for num in data.paginator.page_range %}
+            {% if num == data.number %}
+            <li class="page-item"><a class="page-link" href="#">{{ num }}</a></li>
+            {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{num}}">{{ num }}</a></li>
+            {% endif %}
+            {% endfor %}
+            <li class="page-item"><a class="page-link" href="?page={{data.paginator.num_pages}}">last</a></li>
+            {% if data.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{data.next_page_number}}">next</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-centered modal-dialog-scrollable" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <form action="{% url 'library_app:manageBooksView' %}" method="post" id="booksForm">
+                        {% csrf_token %}
+                        <input type="hidden" name="idInput" id="idInput">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+                                name="book_name" required>
+                            <label for="floatingInput">Book Name</label>
+                        </div>
+                        <div class="form-floating mb-3 ">
+                            <input type="text" class="form-control" id="floatingUsername" placeholder="Author name"
+                                name="author_name" required>
+                            <label for="floatingPassword">Author name</label>
+                        </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" form="booksForm" class="btn btn-primary">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+{% endblock content %}

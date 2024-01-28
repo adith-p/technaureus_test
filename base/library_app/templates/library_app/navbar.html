@@ -1,0 +1,13 @@
+<nav class="navbar bg-body-tertiary" style="background-color: #a8dadc;">
+    <div class="container-fluid">
+
+        <div class="d-flex ms-auto">
+            <div class="mx-4 my-2"> <img src="https://avatars.githubusercontent.com/u/62873249?s=96&v=4" alt="admin"
+                    width="30" height="30" class="rounded-circle">
+                <span class="d-none d-sm-inline mx-1">{{ request.user }}</span>
+            </div>
+            <!-- <button class="btn btn-outline-danger" type="submit">Logout</button> -->
+            <a href="{% url 'user_auth:logout_user' %}" class="btn">Logout</a>
+        </div>
+    </div>
+</nav>
