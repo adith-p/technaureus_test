@@ -38,3 +38,6 @@ Before Running
 ```admin/search/books/``` - View to search books by keyword.
 
 ```admin/search/authors/``` - View to search authors by keyword.
+
+
+NOTE default admin route has been replaced to ```superuser/```
